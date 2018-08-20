@@ -1,0 +1,46 @@
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color: rgb(231, 60, 43);
+}
+
+.header {
+  text-align: center;
+  font-family: 'Monofett', cursive;
+  font-size: 25px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.wrapper {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.cat {
+  box-shadow: 5px 5px rgb(141, 237, 19);
+  margin: 0 auto;
+  height: auto;
+}
+
+.cat-image {
+  height: 30em;
+}
+
+.count {
+  margin-top: 1%;
+  text-align: center;
+}
+
+.strikes {
+  width: 125px;
+  top: 50%;
+  right: 25%;
+}
+
+footer {
+  margin: 15px auto;
+  text-align: center;
+}
