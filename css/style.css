@@ -19,14 +19,21 @@ h1 {
   flex-wrap: wrap;
 }
 
-.cat {
+.cat-container {
   box-shadow: 5px 5px rgb(141, 237, 19);
-  margin: 0 auto;
+  margin: 0 auto 0 5%;
   height: auto;
 }
 
 .cat-image {
   height: 30em;
+}
+
+.cat-list {
+  width: 20%;
+  background-color: white;
+  margin: 0 0 0 auto;
+  height: 484px;
 }
 
 .count {
