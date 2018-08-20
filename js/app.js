@@ -1,10 +1,12 @@
 let clickCounter = 0;
-let cat = document.querySelector(".cat");
+let cat = document.querySelectorAll(".cat");
 let strikes = document.querySelector(".strikes");
 
-cat.addEventListener("click", () => {
-  clickCount();
-  playAudio();
+cat.forEach((image) => {
+  image.addEventListener("click", () => {
+    clickCount();
+    playAudio();
+  });
 });
 
 const clickCount = () => {
