@@ -23,17 +23,21 @@ h1 {
   box-shadow: 5px 5px rgb(141, 237, 19);
   margin: 0 auto 0 5%;
   height: auto;
+  max-width: 64%;
 }
 
 .cat-image {
   height: 30em;
+  max-width: 100%;
+  margin-left: auto;
 }
 
 .cat-list {
   width: 20%;
   background-color: white;
-  margin: 0 0 0 auto;
+  margin: 0 0 0 5%;
   height: 484px;
+  position: static;
 }
 
 .count {

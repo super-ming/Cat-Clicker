@@ -1,22 +1,29 @@
 'use strict';
 
-let clickCounter = 0;
-let cat = document.querySelectorAll(".cat-container");
+let catContainer = document.querySelector(".cat-container");
 let strikes = document.querySelector(".strikes");
 let list = document.querySelector(".cat-list");
+let image = document.querySelector(".cat-image");
 let imageURL = ["https://i.imgflip.com/2g5970.jpg",
-"https://www.pexels.com/photo/adorable-angry-animal-animal-portrait-208984/",
+"https://images.pexels.com/photos/208984/pexels-photo-208984.jpeg?cs=srgb&dl=adorable-angry-animal-208984.jpg&fm=jpg",
 "https://images.pexels.com/photos/127028/pexels-photo-127028.jpeg?cs=srgb&dl=adorable-animal-cat-127028.jpg&fm=jpg",
 "https://images.pexels.com/photos/96938/pexels-photo-96938.jpeg?cs=srgb&dl=animal-animal-photography-cat-96938.jpg&fm=jpg",
 "https://images.pexels.com/photos/54632/cat-animal-eyes-grey-54632.jpeg?cs=srgb&dl=adorable-animal-cat-54632.jpg&fm=jpg"];
-let catNames = ["Grumpy-Cat", "Boss", "JeanGray", "Meep", "Puzzle"];
+let catNames = ["Grumpy-Cat", "Boss-Cat", "Grayson", "Meep", "Puzzle"];
+let catAlt = ["grumpy cat meme", "cat with crossed paws", "gray cat", "cat hiding behind covers", "confused cat"];
 let cats = [];
+let currentCat = cats[0];
 
+// MODEL
 class Cat {
   constructor(name, url){
     this.name = name;
     this.url = url;
     this.clickCounter = 0;
+  }
+
+  strike() {
+    this.clickCounter++;
   }
 };
 
@@ -25,20 +32,24 @@ function makeCats() {
   for (let name of catNames) {
     cats.push(new Cat(name));
   };
-
-  cats.forEach((cat, index) => cat.url = imageURL[index]);
-  makeCatList();
-
+  currentCat = cats[0];
+  cats.forEach((cat, index) => {
+    cat.url = imageURL[index];
+    makeCatList(cat, index);
+  });
 };
 
+// VIEW
 // Create list of cats
-function makeCatList() {
-  for (let cat of cats) {
+function makeCatList(cat, index) {
     let listName = document.createElement("ul");
     let radioButton = document.createElement("input");
     let label = document.createElement("label");
+    let firstCat = document.getElementById(cats[0].name+"-btn")
+    firstCat.checked = true;
+    listName.setAttribute("id", cat.name);
     radioButton.setAttribute("type", "radio");
-    radioButton.id = cat.name;
+    radioButton.id = cat.name+"-btn";
     radioButton.name = "cat";
     radioButton.value = cat.name;
     label.setAttribute("for", radioButton.id);
@@ -46,28 +57,31 @@ function makeCatList() {
     listName.appendChild(radioButton);
     listName.appendChild(label);
     list.appendChild(listName);
-  };
+    listName.addEventListener("click", () => {
+      updateImage(cat, index);
+      strikes.innerText = `${currentCat.clickCounter} paw swipes!`
+    });
 };
 
-makeCats();
-console.log(cats);
-/*
-for (let catObj of cats) {
-  let count = catObj.clickCounter;
-  const
-}*/
 
+function updateImage(cat, index) {
+  let image = document.querySelector(".cat-image");
+  currentCat = cats[index];
+  image.src = cat.url;
+  image.setAttribute("class", "cat-image");
+  image.setAttribute("alt", `picture of ${catAlt[index]}`);
+}
+
+// OCTOPUS
 // Add event listener to each cat
-cat.forEach((image) => {
-  image.addEventListener("click", () => {
+image.addEventListener("click", () => {
     clickCount();
     playAudio();
-  });
 });
 
-const clickCount = () => {
-  clickCounter++;
-  strikes.innerText = `${clickCounter} paw swipes!`;
+let clickCount = () => {
+  currentCat.strike();
+  strikes.innerText = `${currentCat.clickCounter} paw swipes!`;
 }
 
 const playAudio = () => {
