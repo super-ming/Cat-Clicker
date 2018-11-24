@@ -13,8 +13,12 @@ let catNames = ["Grumpy-Cat", "Boss-Cat", "Grayson", "Meep", "Puzzle"];
 let catAlt = ["grumpy cat meme", "cat with crossed paws", "gray cat", "cat hiding behind covers", "confused cat"];
 let cats = [];
 let currentCat = cats[0];
+let adminButton =  document.querySelector(".admin-btn");
+let adminPanel = document.querySelector(".admin-panel");
+let submit =  document.querySelector(".submit");
+let cancel = document.querySelector(".cancel");
 
-// MODEL
+//MODEL
 class Cat {
   constructor(name, url){
     this.name = name;
@@ -28,7 +32,7 @@ class Cat {
 };
 
 // Instantiate cat objects
-function makeCats() {
+const makeCats = () => {
   for (let name of catNames) {
     cats.push(new Cat(name));
   };
@@ -37,16 +41,18 @@ function makeCats() {
     cat.url = imageURL[index];
     makeCatList(cat, index);
   });
+  let firstCat = document.getElementById(cats[0].name+"-btn");
+  firstCat.checked = true;
 };
 
-// VIEW
+makeCats();
+
+//VIEW
 // Create list of cats
-function makeCatList(cat, index) {
+const makeCatList = (cat, index) => {
     let listName = document.createElement("ul");
     let radioButton = document.createElement("input");
     let label = document.createElement("label");
-    let firstCat = document.getElementById(cats[0].name+"-btn")
-    firstCat.checked = true;
     listName.setAttribute("id", cat.name);
     radioButton.setAttribute("type", "radio");
     radioButton.id = cat.name+"-btn";
@@ -56,15 +62,42 @@ function makeCatList(cat, index) {
     label.innerText = cat.name;
     listName.appendChild(radioButton);
     listName.appendChild(label);
-    list.appendChild(listName);
+    list.insertBefore(listName, adminButton);
     listName.addEventListener("click", () => {
       updateImage(cat, index);
       strikes.innerText = `${currentCat.clickCounter} paw swipes!`
     });
 };
 
+const adminUpdate = () => {
+  let newName =  document.getElementById("newName");
+  let newUrl =  document.getElementById("newUrl");
+  let newClick =  document.getElementById("newClick");
+  let newNameValue = newName.value;
+  let newUrlValue = newUrl.value;
+  let newClickValue = newClick.value;
+  let oldCat = document.getElementsByClassName(currentCat.name);
+  currentCat.name = newNameValue;
+  currentCat.url = newUrlValue;
+  currentCat.clickCounter = newClickValue;
+  oldCat.id = currentCat.name;
+  document.body.innerHTML.replace(new RegExp(oldCat.name, "g"), currentCat.name);
+  adminPanel.style.visibility = "hidden";
+};
 
-function updateImage(cat, index) {
+adminButton.addEventListener("click", () => {
+  adminPanel.style.visibility = "visible";
+});
+
+submit.addEventListener("click", () => {
+  adminUpdate();
+});
+
+cancel.addEventListener("click", () => {
+  adminPanel.style.visibility = "hidden";
+});
+
+const updateImage = (cat, index) => {
   let image = document.querySelector(".cat-image");
   currentCat = cats[index];
   image.src = cat.url;
@@ -72,14 +105,14 @@ function updateImage(cat, index) {
   image.setAttribute("alt", `picture of ${catAlt[index]}`);
 }
 
-// OCTOPUS
+//OCTOPUS
 // Add event listener to each cat
 image.addEventListener("click", () => {
     clickCount();
     playAudio();
 });
 
-let clickCount = () => {
+const clickCount = () => {
   currentCat.strike();
   strikes.innerText = `${currentCat.clickCounter} paw swipes!`;
 }
